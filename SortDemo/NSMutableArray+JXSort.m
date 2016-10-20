@@ -69,20 +69,22 @@
     NSInteger j = high;
     
     while (i < j) {
-        // 寻找小于pivot的元素
+        // 略过大于等于pivot的元素
         while (i < j && comparator(self[j], pivot) != NSOrderedAscending) {
             j --;
         }
         if (i < j) {
+            // i、j未相遇，说明找到了小于pivot的元素。交换。
             [self jx_exchangeWithIndexA:i indexB:j didExchange:exchangeCallback];
             i ++;
         }
         
-        // 寻找大于pivot的元素
+        /// 略过小于等于pivot的元素
         while (i < j && comparator(self[i], pivot) != NSOrderedDescending) {
             i ++;
         }
         if (i < j) {
+            // i、j未相遇，说明找到了大于pivot的元素。交换。
             [self jx_exchangeWithIndexA:i indexB:j didExchange:exchangeCallback];
             j --;
         }
