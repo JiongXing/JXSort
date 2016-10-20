@@ -171,6 +171,9 @@
 
 # 参考
 [Swift算法俱乐部中文版 -- 插入排序](http://www.jianshu.com/p/0ab1369e703d)
+
 [算法笔记－排序01:选择排序,插入排序,希尔排序](http://www.jianshu.com/p/a7efe0f8e4ab)
+
 [算法笔记－排序02:归并排序,快速排序](http://www.jianshu.com/p/655db46e161d)
+
 [1.2-交换排序-快速排序](http://www.jianshu.com/p/8773cc691ced)
