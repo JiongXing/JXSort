@@ -1,4 +1,6 @@
 # JXSort
+详情请查看这篇：http://www.jianshu.com/p/70619984fbc6
+
 > 用Objective-C实现几种基本的排序算法，并把排序的过程图形化显示。其实算法还是挺有趣的 ^ ^.
 
 - 选择排序
