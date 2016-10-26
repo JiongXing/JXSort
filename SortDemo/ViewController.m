@@ -99,7 +99,7 @@ static const NSInteger kBarCount = 100;
         dispatch_semaphore_signal(weakSelf.sema);
         // 更新计时
         NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - nowTime;
-        self.timeLabel.text = [NSString stringWithFormat:@"耗时(秒):%2.3f", interval];
+        weakSelf.timeLabel.text = [NSString stringWithFormat:@"耗时(秒):%2.3f", interval];
     }];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
