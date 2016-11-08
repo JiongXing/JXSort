@@ -25,4 +25,7 @@ typedef void(^JXSortExchangeCallback)(id obj1, id obj2);
 // 快速排序
 - (void)jx_quickSortUsingComparator:(JXSortComparator)comparator didExchange:(JXSortExchangeCallback)exchangeCallback;
 
+// 堆排序
+- (void)jx_heapSortUsingComparator:(JXSortComparator)comparator didExchange:(JXSortExchangeCallback)exchangeCallback;
+
 @end

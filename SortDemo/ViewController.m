@@ -51,7 +51,7 @@ static const NSInteger kBarCount = 100;
 
 - (UISegmentedControl *)segmentControl {
     if (!_segmentControl) {
-        _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"选择", @"冒泡", @"插入", @"快速"]];
+        _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"选择", @"冒泡", @"插入", @"快速", @"堆排序"]];
         _segmentControl.selectedSegmentIndex = 0;
         [_segmentControl addTarget:self action:@selector(onSegmentControlChanged:) forControlEvents:UIControlEventValueChanged];
         [self.view addSubview:_segmentControl];
@@ -116,6 +116,9 @@ static const NSInteger kBarCount = 100;
             case 3:
                 [self quickSort];
                 break;
+            case 4:
+                [self heapSort];
+                break;
             default:
                 break;
         }
@@ -150,6 +153,14 @@ static const NSInteger kBarCount = 100;
 
 - (void)quickSort {
     [self.barArray jx_quickSortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [self compareWithBarOne:obj1 andBarTwo:obj2];
+    } didExchange:^(id obj1, id obj2) {
+        [self exchangePositionWithBarOne:obj1 andBarTwo:obj2];
+    }];
+}
+
+- (void)heapSort {
+    [self.barArray jx_heapSortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [self compareWithBarOne:obj1 andBarTwo:obj2];
     } didExchange:^(id obj1, id obj2) {
         [self exchangePositionWithBarOne:obj1 andBarTwo:obj2];
@@ -210,7 +221,7 @@ static const NSInteger kBarCount = 100;
 }
 
 - (void)printBarArray {
-#if 0
+#if 1
     NSMutableString *str = [NSMutableString string];
     [self.barArray enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [str appendFormat:@"%@ ", @(CGRectGetHeight(obj.frame))];
