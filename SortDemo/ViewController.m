@@ -17,7 +17,6 @@ static const NSInteger kBarCount = 100;
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) NSMutableArray<UIView *> *barArray;
-@property (nonatomic, strong) NSMutableArray<NSNumber *> *numberArray;
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) dispatch_semaphore_t sema;
@@ -65,7 +64,6 @@ static const NSInteger kBarCount = 100;
 
 - (void)onReset {
     [self invalidateTimer];
-    [self.numberArray removeAllObjects];
     self.timeLabel.text = nil;
     
     CGFloat width = CGRectGetWidth(self.view.bounds);
@@ -80,7 +78,6 @@ static const NSInteger kBarCount = 100;
         CGFloat barHeight = 20 + arc4random_uniform(barAreaHeight - 20);
         // 若需要制造高概率重复数据请打开此行，令数值为10的整数倍(或修改为其它倍数)
 //        barHeight = roundf(barHeight / 10) * 10;
-        [self.numberArray addObject:@(barHeight)];
         bar.frame = CGRectMake(barOrginX + idx * (barMargin + barWidth), barBottom - barHeight, barWidth, barHeight);
     }];
     NSLog(@"重置成功!");
@@ -203,13 +200,6 @@ static const NSInteger kBarCount = 100;
         }
     }
     return _barArray;
-}
-
-- (NSMutableArray<NSNumber *> *)numberArray {
-    if (!_numberArray) {
-        _numberArray = [NSMutableArray array];
-    }
-    return _numberArray;
 }
 
 - (void)invalidateTimer {
