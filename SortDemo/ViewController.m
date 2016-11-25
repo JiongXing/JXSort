@@ -84,20 +84,26 @@ static const NSInteger kBarCount = 100;
     [self printBarArray];
 }
 
+static NSTimeInterval nowTime;
+
 - (void)onSort {
     [self invalidateTimer];
     self.sema = dispatch_semaphore_create(0);
     NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
     
+    // 在真机上运行会闪退，不知道会不会因为NSTimer使用block方式会出现问题
     // 定时器信号
-    __weak typeof(self) weakSelf = self;
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.002 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        // 发出信号量，唤醒排序线程
-        dispatch_semaphore_signal(weakSelf.sema);
-        // 更新计时
-        NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - nowTime;
-        weakSelf.timeLabel.text = [NSString stringWithFormat:@"耗时(秒):%2.3f", interval];
-    }];
+//    __weak typeof(self) weakSelf = self;
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.002 repeats:YES block:^(NSTimer * _Nonnull timer) {
+//        // 发出信号量，唤醒排序线程
+//        dispatch_semaphore_signal(weakSelf.sema);
+//        // 更新计时
+//        NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - nowTime;
+//        weakSelf.timeLabel.text = [NSString stringWithFormat:@"耗时(秒):%2.3f", interval];
+//    }];
+    
+    // 暂时这样处理会解决真机运行闪退bug
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.002 target:self selector:@selector(fireTimerAction) userInfo:nil repeats:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         switch (self.segmentControl.selectedSegmentIndex) {
@@ -122,6 +128,15 @@ static const NSInteger kBarCount = 100;
         [self invalidateTimer];
         [self printBarArray];
     });
+}
+
+- (void)fireTimerAction
+{
+    // 发出信号量，唤醒排序线程
+    dispatch_semaphore_signal(self.sema);
+    // 更新计时
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - nowTime;
+    self.timeLabel.text = [NSString stringWithFormat:@"耗时(秒):%2.3f", interval];
 }
 
 - (void)selectionSort {
