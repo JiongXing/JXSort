@@ -23,7 +23,7 @@ static const NSInteger kBarCount = 100;
 @property (nonatomic, strong) dispatch_semaphore_t sema;
 
 // 堆排序过程中禁止操作
-@property (nonatomic, assign) BOOL prohibitAction;
+@property (atomic, assign) BOOL prohibitAction;
 
 @end
 
