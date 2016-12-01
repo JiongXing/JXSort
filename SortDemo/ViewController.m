@@ -22,9 +22,6 @@ static const NSInteger kBarCount = 100;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) dispatch_semaphore_t sema;
 
-// 堆排序过程中禁止操作
-@property (atomic, assign) BOOL prohibitAction;
-
 @end
 
 @implementation ViewController
@@ -67,9 +64,6 @@ static const NSInteger kBarCount = 100;
 }
 
 - (void)onReset {
-    if (self.prohibitAction) {
-        return;
-    }
     [self invalidateTimer];
     self.timeLabel.text = nil;
     
@@ -116,14 +110,7 @@ static const NSInteger kBarCount = 100;
                 [self quickSort];
                 break;
             case 4: {
-                // 堆排序过程中不允许重置视图。因为会对排序数组进行增删操作
-                self.prohibitAction = YES;
-                self.segmentControl.userInteractionEnabled = NO;
-                
                 [self heapSort];
-                
-                self.prohibitAction = NO;
-                self.segmentControl.userInteractionEnabled = YES;
                 break;
             }
             default:
